@@ -1,35 +1,80 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <AssemblyName>Sodium</AssemblyName>
-    <RootNamespace>Sodium</RootNamespace>
-    <PackageId>libsodium-net</PackageId>
-    <Product>libsodium-net</Product>
-    <Version>1.0.12-preview-01</Version>
-    <AssemblyVersion>0.12.0.0</AssemblyVersion>
-    <FileVersion>0.12.0.0</FileVersion>
-    <Authors>Adam Caudill</Authors>
-    <LicenseUrl>https://raw.githubusercontent.com/adamcaudill/libsodium-net/master/LICENSE</LicenseUrl>
-    <ProjectUrl>https://github.com/adamcaudill/libsodium-net</ProjectUrl>
-    <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
-    <Description>A secure cryptographic library</Description>
-    <Copyright>Copyright (c) 2013 - 2016 Adam Caudill &amp; Contributors</Copyright>
-    <Tags>encryption libsodium XSalsa20 Curve25519 Ed25519 Poly1305 NaCl AES GCM scrypt Argon Argon2 password hash</Tags>
-    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8e6f5390-f39a-90bd-763e-7f08197788b3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>libsodium-net</RootNamespace>
+    <AssemblyName>libsodium-net</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
-    <PackageReference Include="libsodium" Version="1.0.12-preview-01" />
+    <Reference Include="System" />
+    <Reference Include="netstandard" />
   </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='net46'">
-    <Reference Include="System.Security" />
+  <ItemGroup>
+    <Compile Include="CryptoHash.cs" />
+    <Compile Include="DetachedBox.cs" />
+    <Compile Include="GenericHash.cs" />
+    <Compile Include="GenericHashAlgorithm.cs" />
+    <Compile Include="KeyPair.cs" />
+    <Compile Include="OneTimeAuth.cs" />
+    <Compile Include="PasswordHash.cs" />
+    <Compile Include="PublicKeyAuth.cs" />
+    <Compile Include="PublicKeyBox.cs" />
+    <Compile Include="ScalarMult.cs" />
+    <Compile Include="SealedPublicKeyBox.cs" />
+    <Compile Include="SecretAead.cs" />
+    <Compile Include="SecretAeadAes.cs" />
+    <Compile Include="SecretBox.cs" />
+    <Compile Include="SecretKeyAuth.cs" />
+    <Compile Include="ShortHash.cs" />
+    <Compile Include="SodiumCore.cs" />
+    <Compile Include="StreamEncryption.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="Exceptions\SignatureOutOfRangeException .cs" />
+    <Compile Include="Exceptions\SeedOutOfRangeException.cs" />
+    <Compile Include="Exceptions\BytesOutOfRangeException.cs" />
+    <Compile Include="Exceptions\NonceOutOfRangeException.cs" />
+    <Compile Include="Exceptions\SaltOutOfRangeException.cs" />
+    <Compile Include="Exceptions\AdditionalDataOutOfRangeException.cs" />
+    <Compile Include="Exceptions\KeyOutOfRangeException.cs" />
+    <Compile Include="Exceptions\PersonalOutOfRangeException.cs" />
+    <Compile Include="Exceptions\MacOutOfRangeException.cs" />
+    <Compile Include="Interop\SodiumLibrary.cs" />
+    <Compile Include="Interop\SodiumRuntimeConfig.cs" />
+    <Compile Include="Interop\RuntimeShim.cs" />
   </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='net46'">
-    <None Include="Sodium.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+  <ItemGroup>
+    <None Include="libsodium-net.csproj" />
+    <None Include="Sodium.dll.config" />
   </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="None" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>
